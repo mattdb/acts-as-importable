@@ -114,4 +114,18 @@ describe AMC::Acts::Importable do
     end
   end
   
+  describe 'validation option' do
+    before(:each) do
+      @invalid_valid_thing = create_valid_legacy_thing(:legacy_name => nil)
+      # Legacy::ValidThing passes :validate => false to acts_as_importable
+    end
+    
+    it "should save without validations when acts_as_importable gets :validate => false option" do
+      new_record = @invalid_valid_thing.import
+      new_record.should_not be_new_record
+    end
+    it "should not raise errors when importing when validation is off and imported model is invalid" do
+      lambda { @invalid_valid_thing.import }.should_not raise_error
+    end
+  end
 end

@@ -9,5 +9,6 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string  :description
     t.integer :legacy_id
     t.string  :legacy_class
+    t.string  :type
   end
 end

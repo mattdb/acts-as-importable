@@ -11,6 +11,7 @@ module AMC
         def acts_as_importable(options = {})
           # Store the import target class with the legacy class
           write_inheritable_attribute :importable_to, options[:to]
+          write_inheritable_attribute(:validate, (options[:validate].nil? ? true : options[:validate]))
           
           # Don't extend or include twice. This will allow acts_as_importable to be called multiple times.
           # eg. once in a parent class and once again in the child class, where it can override some options.
@@ -63,7 +64,7 @@ module AMC
               new_model.legacy_id     = self.id         if new_model.respond_to?(:"legacy_id=")
               new_model.legacy_class  = self.class.to_s if new_model.respond_to?(:"legacy_class=")
               
-              if !new_model.save
+              if !new_model.save(self.class.read_inheritable_attribute(:validate))
                 p new_model.errors
                 # TODO log an error that the model failed to save
                 # TODO remove the raise once we're out of the development cycle
