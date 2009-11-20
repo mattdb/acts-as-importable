@@ -4,16 +4,6 @@ class ActiveRecord::Base
   alias_method :id__, :id
 end
 
-class Object
-  ##
-  #   @person ? @person.name : nil
-  # vs
-  #   @person.try(:name)
-  def try(method)
-    send method if respond_to? method
-  end
-end
-
 # From http://weblog.jamisbuck.org/2007/4/6/faking-cursors-in-activerecord
 class <<ActiveRecord::Base
   def each(limit=1000)
